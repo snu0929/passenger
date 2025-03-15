@@ -3,35 +3,53 @@ import styled from "styled-components";
 import axios from "axios";
 
 const FormContainer = styled.div`
-  width: 400px;
+  width: 90%;
+  max-width: 600px;
   margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
+  padding: 21px;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+
 `;
 
+const FormGroup = styled.div`
+  margin-bottom: 15px;
+`;
+
+
 const Input = styled.input`
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 12px;
+  width: 80%;
+  padding: 9px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  &:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
 `;
 
 const Select = styled.select`
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 12px;
+  width: 85%;
+  padding: 9px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  &:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+`;
+
+const FileInput = styled(Input)`
+  padding: 8px;
 `;
 
 const Button = styled.button`
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -41,6 +59,13 @@ const Button = styled.button`
   margin-top: 10px;
   &:hover {
     background-color: #45a049;
+  }
+`;
+
+const RemoveButton = styled(Button)`
+  background-color: #f44336;
+  &:hover {
+    background-color: #e53935;
   }
 `;
 
@@ -73,7 +98,6 @@ export const Form = ({ refreshData }) => {
         setPassengers(updatedPassengers);
     };
 
-    // ✅ Add new passenger row
     const handleAddPassenger = () => {
         setPassengers([
             ...passengers,
@@ -89,21 +113,23 @@ export const Form = ({ refreshData }) => {
         ]);
     };
 
-    //Remove a passenger row
     const handleRemovePassenger = (index) => {
         const updatedPassengers = [...passengers];
         updatedPassengers.splice(index, 1);
         setPassengers(updatedPassengers);
+
+        // Reset refs
+        photoRef.current.splice(index, 1);
+        idCardRef.current.splice(index, 1);
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const formData = new FormData();
 
-            // Create a copy of the passengers array without the File objects
+            // Add passengers data as JSON
             const passengersData = passengers.map(passenger => ({
                 name: passenger.name,
                 age: passenger.age,
@@ -111,11 +137,9 @@ export const Form = ({ refreshData }) => {
                 contact: passenger.contact || "",
                 email: passenger.email || ""
             }));
-
-            // Add the passengers data as a JSON string
             formData.append('passengers', JSON.stringify(passengersData));
 
-            // Add files separately
+            // Add files
             passengers.forEach((passenger, index) => {
                 if (passenger.photo) {
                     formData.append('photo', passenger.photo);
@@ -126,33 +150,29 @@ export const Form = ({ refreshData }) => {
             });
 
             const res = await axios.post("http://localhost:8080/api/add", formData);
-
             console.log(res.data);
 
-            // Refresh table data after submission
+            // Refresh table data
             refreshData();
 
-            // Reset form state
-            setPassengers([
-                {
-                    name: "",
-                    age: "",
-                    gender: "",
-                    contact: "",
-                    email: "",
-                    photo: null,
-                    idCard: null,
-                },
-            ]);
+            // Reset form
+            setPassengers([{
+                name: "",
+                age: "",
+                gender: "",
+                contact: "",
+                email: "",
+                photo: null,
+                idCard: null,
+            }]);
 
-            // Reset file inputs using refs
+            // Clear file inputs
             photoRef.current.forEach((input) => {
                 if (input) input.value = "";
             });
             idCardRef.current.forEach((input) => {
                 if (input) input.value = "";
             });
-
         } catch (error) {
             console.error("Error submitting form:", error);
         }
@@ -164,69 +184,91 @@ export const Form = ({ refreshData }) => {
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 {passengers.map((passenger, index) => (
                     <div key={index}>
-                        <Input
-                            type="text"
-                            name="name"
-                            value={passenger.name}
-                            onChange={(e) => handleChange(index, e)}
-                            placeholder="Name"
-                            required
-                        />
-                        <Input
-                            type="number"
-                            name="age"
-                            value={passenger.age}
-                            onChange={(e) => handleChange(index, e)}
-                            placeholder="Age"
-                            required
-                        />
-                        <Select
-                            name="gender"
-                            value={passenger.gender}
-                            onChange={(e) => handleChange(index, e)}
-                            required
-                        >
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </Select>
-                        <Input
-                            type="text"
-                            name="contact"
-                            value={passenger.contact}
-                            onChange={(e) => handleChange(index, e)}
-                            placeholder="Contact"
-                        />
-                        <Input
-                            type="email"
-                            name="email"
-                            value={passenger.email}
-                            onChange={(e) => handleChange(index, e)}
-                            placeholder="Email"
-                        />
-                        <Input
-                            type="file"
-                            name="photo"
-                            ref={(el) => (photoRef.current[index] = el)}
-                            onChange={(e) => handleChange(index, e)}
-                            accept="image/png, image/jpeg, image/jpg"
-                        />
-                        <Input
-                            type="file"
-                            name="idCard"
-                            ref={(el) => (idCardRef.current[index] = el)}
-                            onChange={(e) => handleChange(index, e)}
-                            accept="application/pdf"
-                        />
+                        <FormGroup>
+
+                            <Input
+                                type="text"
+                                name="name"
+                                value={passenger.name}
+                                onChange={(e) => handleChange(index, e)}
+                                placeholder="Name"
+                                required
+                            />
+                        </FormGroup>
+                        <FormGroup>
+
+                            <Input
+                                type="number"
+                                name="age"
+                                value={passenger.age}
+                                onChange={(e) => handleChange(index, e)}
+                                placeholder="Age"
+                                required
+                            />
+                        </FormGroup>
+                        <FormGroup>
+
+                            <Select
+                                name="gender"
+                                value={passenger.gender}
+                                onChange={(e) => handleChange(index, e)}
+                                required
+                            >
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </Select>
+                        </FormGroup>
+                        <FormGroup>
+
+                            <Input
+                                type="text"
+                                name="contact"
+                                value={passenger.contact}
+                                onChange={(e) => handleChange(index, e)}
+                                placeholder="Contact"
+                            />
+                        </FormGroup>
+                        <FormGroup>
+
+                            <Input
+                                type="email"
+                                name="email"
+                                value={passenger.email}
+                                onChange={(e) => handleChange(index, e)}
+                                placeholder="Email"
+                            />
+                        </FormGroup>
+                        <FormGroup>
+
+                            <FileInput
+                                type="file"
+                                name="photo"
+                                ref={(el) => (photoRef.current[index] = el)}
+                                onChange={(e) => handleChange(index, e)}
+                                accept="image/png, image/jpeg, image/jpg"
+                                required
+                            />
+                        </FormGroup>
+                        <FormGroup>
+
+                            <FileInput
+                                type="file"
+                                name="idCard"
+                                ref={(el) => (idCardRef.current[index] = el)}
+                                onChange={(e) => handleChange(index, e)}
+                                accept="application/pdf"
+                                required
+                            />
+                        </FormGroup>
                         {index > 0 && (
-                            <Button
+                            <RemoveButton
                                 type="button"
                                 onClick={() => handleRemovePassenger(index)}
-                                style={{ backgroundColor: "#f44336" }}
                             >
-                                Remove
-                            </Button>
+                                Remove Passenger
+                            </RemoveButton>
                         )}
                     </div>
                 ))}
