@@ -52,6 +52,18 @@ passengerRouter.get("/", async (req, res) => {
   }
 });
 
+passengerRouter.delete("/delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const passenger = await passengerModel.findByIdAndDelete(id);
+    res.status(200).json({ msg: "deleted passenger", passenger });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ msg: "failed to delete the passenger", error: error.message });
+  }
+});
+
 module.exports = {
   passengerRouter,
 };
