@@ -1,23 +1,23 @@
-Passenger Management System
+## Passenger Management System
 This is a full-stack web application built with React.js for the frontend and Node.js/Express with MongoDB for the backend. The application allows users to add multiple passengers, upload photos (PNG/JPEG) and ID cards (PDF), and display the passenger data in a table.
 
-Features
+## Features
 Frontend (React.js)
-Add Multiple Passengers:
+# Add Multiple Passengers:
 
-Form with fields for Name, Age, Gender, Contact, Email, Photo (PNG/JPEG), and ID Card (PDF).
+- Form with fields for Name, Age, Gender, Contact, Email, Photo (PNG/JPEG), and ID Card (PDF).
 
-Dynamically add or remove passenger rows.
+-Dynamically add or remove passenger rows.
 
-Display Passenger Data:
+-Display Passenger Data:
 
-Table showing passenger details, including a thumbnail of the photo and a link to download the ID card.
+-Table showing passenger details, including a thumbnail of the photo and a link to download the ID card.
 
-Search Functionality:
+* Search Functionality:
 
-Search passengers by name or email.
+- Search passengers by name or email.
 
-Delete Passenger:
+- Delete Passenger:
 
 Delete a passenger from the table.
 
