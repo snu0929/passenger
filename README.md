@@ -1,9 +1,9 @@
-## Passenger Management System
+# Passenger Management System
 This is a full-stack web application built with React.js for the frontend and Node.js/Express with MongoDB for the backend. The application allows users to add multiple passengers, upload photos (PNG/JPEG) and ID cards (PDF), and display the passenger data in a table.
 
 ## Features
 Frontend (React.js)
-# Add Multiple Passengers:
+### Add Multiple Passengers:
 
 - Form with fields for Name, Age, Gender, Contact, Email, Photo (PNG/JPEG), and ID Card (PDF).
 
@@ -13,48 +13,48 @@ Frontend (React.js)
 
 -Table showing passenger details, including a thumbnail of the photo and a link to download the ID card.
 
-* Search Functionality:
+### Search Functionality:
 
 - Search passengers by name or email.
 
 - Delete Passenger:
 
-Delete a passenger from the table.
+### Delete a passenger from the table.
 
 Backend (Node.js/Express & MongoDB)
-API Endpoints:
+### API Endpoints:
 
-POST /api/add: Add multiple passengers with file uploads.
+- POST /api/add: Add multiple passengers with file uploads.
 
-GET /api: Fetch all passengers.
+- GET /api: Fetch all passengers.
 
-DELETE /api/delete/:id: Delete a passenger by ID.
+- DELETE /api/delete/:id: Delete a passenger by ID.
 
-File Uploads:
+### File Uploads:
 
 Photos and ID cards are saved in the uploads directory.
 
 Files are served as static assets.
 
-Technologies Used
+### Technologies Used
 Frontend
-React.js: Frontend library for building the user interface.
+- React.js: Frontend library for building the user interface.
 
-Axios: For making HTTP requests to the backend.
+- Axios: For making HTTP requests to the backend.
 
-Styled Components: For styling the components.
+- Styled Components: For styling the components.
 
 Backend
-Node.js: JavaScript runtime for the backend.
+- Node.js: JavaScript runtime for the backend.
 
-Express.js: Web framework for building the API.
+- Express.js: Web framework for building the API.
 
-MongoDB: Database for storing passenger data.
+- MongoDB: Database for storing passenger data.
 
-Multer: Middleware for handling file uploads.
+- Multer: Middleware for handling file uploads.
 
-Setup Instructions
-Prerequisites
+## Setup Instructions
+### Prerequisites
 Node.js and npm installed on your machine.
 
 MongoDB installed and running locally or a connection string for a remote MongoDB instance.
