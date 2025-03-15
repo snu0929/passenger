@@ -106,8 +106,7 @@ URL: POST /api/add
 
 Request Body:
 
-json
-Copy
+```
 {
   "passengers": [
     {
@@ -121,10 +120,10 @@ Copy
     }
   ]
 }
+```
 Response:
 
-json
-Copy
+```
 {
   "msg": "Passengers added",
   "createdPassengers": [
@@ -140,13 +139,13 @@ Copy
     }
   ]
 }
+```
 Fetch All Passengers
 URL: GET /api
 
 Response:
 
-json
-Copy
+```
 {
   "passengers": [
     {
@@ -161,13 +160,12 @@ Copy
     }
   ]
 }
+```
 Delete a Passenger
 URL: DELETE /api/delete/:id
 
 Response:
-
-json
-Copy
+```
 {
   "msg": "Passenger deleted successfully",
   "passenger": {
@@ -181,12 +179,11 @@ Copy
     "idCard": "1698765432100-idcard.pdf"
   }
 }
+```
 Screenshots
-Add Passengers Form
-Add Passengers Form
+![image](https://github.com/user-attachments/assets/08d8fec5-bb17-4af4-ad92-176479befce8)
+![image](https://github.com/user-attachments/assets/363fd113-70c1-4fb2-aa27-36f342c60cfb)
 
-Passenger Table
-Passenger Table
 
 Contributing
 Contributions are welcome! If you find any issues or want to add new features, feel free to open a pull request.
